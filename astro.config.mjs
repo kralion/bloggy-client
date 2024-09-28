@@ -6,10 +6,13 @@ import sitemap from "@astrojs/sitemap";
 
 import tailwind from "@astrojs/tailwind";
 
+import vercel from "@astrojs/vercel/serverless";
+
 // https://astro.build/config
 export default defineConfig({
   site: "https://example.com",
   integrations: [mdx(), sitemap(), tailwind()],
+
   env: {
     schema: {
       STRAPI_URL: envField.string({
@@ -18,4 +21,7 @@ export default defineConfig({
       }),
     },
   },
+
+  output: "server",
+  adapter: vercel(),
 });

@@ -5,6 +5,7 @@ import Footer from "../../components/Footer.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../../consts";
 import { STRAPI_URL } from "astro:env/server";
 let url = STRAPI_URL + "/api/products?populate=*";
+export const prerender = true;
 
 const products = await fetch(url).then((res) => res.json());
 ---
