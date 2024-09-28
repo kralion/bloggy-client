@@ -1,0 +1,51 @@
+---
+import BaseHead from "../../components/BaseHead.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import { SITE_TITLE, SITE_DESCRIPTION } from "../../consts";
+import { getCollection } from "astro:content";
+import FormattedDate from "../../components/FormattedDate.astro";
+import { STRAPI_URL } from "astro:env/server";
+let url = STRAPI_URL + "/api/products?populate=*";
+
+const products = await fetch(url).then((res) => res.json());
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+  </head>
+  <body>
+    <Header />
+    <section class="flex flex-col items-center justify-center py-20">
+      {
+        products &&
+          products.data.map(
+            (product: {
+              name: string;
+              slug: string;
+              cover: { url: string };
+              stock: number;
+            }) => (
+              <article class="prose">
+                <img
+                  class="rounded-lg shadow-xl  rotate-6"
+                  src={`${STRAPI_URL}/${product.cover.url}`}
+                  alt={product.name}
+                />
+                <div class="flex justify-between items-center">
+                  <a href={`/products/${product.slug}/`}>
+                    <h1>{product.name}</h1>
+                  </a>
+
+                  <p>Quantity : {product.stock}</p>
+                </div>
+              </article>
+            )
+          )
+      }
+    </section>
+    <Footer />
+  </body>
+</html>

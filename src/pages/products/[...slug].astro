@@ -1,0 +1,40 @@
+---
+import BlogPost from "../../layouts/BlogPost.astro";
+import { STRAPI_URL } from "astro:env/server";
+
+let url = STRAPI_URL + "/api/products";
+
+export async function getStaticPaths() {
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+    return data.data.map((product) => ({
+      params: { slug: product.slug },
+      props: product,
+    }));
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    return [];
+  }
+}
+
+interface Product {
+  name: string;
+  id: number;
+  cover: { url: string };
+  stock: number;
+  slug: string;
+}
+
+const product: Product = Astro.props;
+let singleProduct = await fetch(
+  STRAPI_URL + "/api/products" + "/" + product.id + "?populate=*"
+).then((res) =>
+  res
+    .json()
+    .then((data) => data.data)
+    .catch((error) => console.error("Error fetching product:", error))
+);
+---
+
+<BlogPost {...singleProduct} />
