@@ -8,7 +8,7 @@ export async function getStaticPaths() {
   try {
     const response = await fetch(url);
     const data = await response.json();
-    return data.data.map((product) => ({
+    return data.data.map((product: { slug: string }) => ({
       params: { slug: product.slug },
       props: product,
     }));
