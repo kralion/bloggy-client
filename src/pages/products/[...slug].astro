@@ -1,8 +1,7 @@
 ---
 import BlogPost from "../../layouts/BlogPost.astro";
-import { STRAPI_URL } from "astro:env/server";
 
-let url = STRAPI_URL + "/api/products";
+let url = import.meta.env.STRAPI_URL + "/api/products";
 
 export async function getStaticPaths() {
   try {

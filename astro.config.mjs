@@ -13,15 +13,6 @@ export default defineConfig({
   site: "https://example.com",
   integrations: [mdx(), sitemap(), tailwind()],
 
-  env: {
-    schema: {
-      STRAPI_URL: envField.string({
-        context: "server",
-        access: "public",
-      }),
-    },
-  },
-
   output: "server",
   adapter: vercel(),
 });

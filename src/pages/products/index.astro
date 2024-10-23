@@ -3,8 +3,7 @@ import BaseHead from "../../components/BaseHead.astro";
 import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../../consts";
-import { STRAPI_URL } from "astro:env/server";
-let url = STRAPI_URL + "/api/products?populate=*";
+let url = import.meta.env.STRAPI_URL + "/api/products?populate=*";
 export const prerender = true;
 
 const products = await fetch(url).then((res) => res.json());
@@ -30,7 +29,7 @@ const products = await fetch(url).then((res) => res.json());
               <article class="prose">
                 <img
                   class="rounded-lg shadow-xl  rotate-6"
-                  src={`${STRAPI_URL}${product.cover.url}`}
+                  src={`${import.meta.env.STRAPI_URL}${product.cover.url}`}
                   alt={product.name}
                 />
                 <div class="flex justify-between items-center">
