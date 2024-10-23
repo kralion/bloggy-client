@@ -27,7 +27,11 @@ interface Product {
 
 const product: Product = Astro.props;
 let singleProduct = await fetch(
-  STRAPI_URL + "/api/products" + "/" + product.id + "?populate=*"
+  import.meta.env.STRAPI_URL +
+    "/api/products" +
+    "/" +
+    product.id +
+    "?populate=*"
 ).then((res) =>
   res
     .json()
